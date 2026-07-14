@@ -1,0 +1,261 @@
+:root {
+  color-scheme: light;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #172033;
+  background:
+    radial-gradient(circle at top left, rgba(255, 168, 76, 0.28), transparent 28%),
+    radial-gradient(circle at top right, rgba(31, 120, 255, 0.18), transparent 24%),
+    linear-gradient(180deg, #f7f2e8 0%, #edf3ff 100%);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 40px 0 56px;
+}
+
+.hero-card,
+.workspace {
+  border: 1px solid rgba(23, 32, 51, 0.08);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 20px 60px rgba(23, 32, 51, 0.08);
+}
+
+.hero-card {
+  display: grid;
+  gap: 24px;
+  padding: 32px;
+  border-radius: 28px;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #5f6b86;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  line-height: 1.02;
+}
+
+.hero-copy {
+  max-width: 62ch;
+  margin: 16px 0 0;
+  font-size: 1.05rem;
+  color: #44506a;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.stat {
+  padding: 18px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(235, 241, 255, 0.92));
+  border: 1px solid rgba(23, 32, 51, 0.08);
+}
+
+.stat-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #5f6b86;
+  font-size: 0.85rem;
+}
+
+.stat strong {
+  font-size: 1.6rem;
+}
+
+.workspace {
+  margin-top: 20px;
+  padding: 24px;
+  border-radius: 24px;
+}
+
+.composer {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.composer label {
+  font-weight: 700;
+}
+
+.composer-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+}
+
+input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(23, 32, 51, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  color: #172033;
+}
+
+input:focus {
+  outline: 3px solid rgba(31, 120, 255, 0.18);
+  border-color: rgba(31, 120, 255, 0.38);
+}
+
+button {
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: #172033;
+  color: #fff;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+  transform: none;
+}
+
+.ghost-button {
+  background: rgba(23, 32, 51, 0.08);
+  color: #172033;
+}
+
+.banner {
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(255, 111, 97, 0.12);
+  color: #9c2e25;
+  border: 1px solid rgba(255, 111, 97, 0.2);
+}
+
+.task-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.panel-header h2 {
+  margin: 0;
+}
+
+.empty-state {
+  margin: 0;
+  padding: 20px;
+  border-radius: 18px;
+  background: rgba(23, 32, 51, 0.04);
+  color: #5f6b86;
+}
+
+.task-list {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(23, 32, 51, 0.08);
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.task-item h3 {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+}
+
+.task-item p {
+  margin: 0;
+  color: #5f6b86;
+  font-size: 0.88rem;
+}
+
+.task-item button {
+  flex-shrink: 0;
+  background: rgba(255, 111, 97, 0.12);
+  color: #9c2e25;
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    width: min(100% - 20px, 1080px);
+    padding: 20px 0 32px;
+  }
+
+  .hero-card,
+  .workspace {
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .stats-row,
+  .composer-row {
+    grid-template-columns: 1fr;
+  }
+
+  .task-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .task-item button {
+    width: 100%;
+  }
+}
