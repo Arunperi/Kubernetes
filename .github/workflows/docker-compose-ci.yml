@@ -28,3 +28,25 @@ jobs:
 
       - name: Test AWS Credentials
         run: aws sts get-caller-identity
+
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/aws-ecr-login@v2
+
+      - name: Build Backend Docker Image
+        run: docker build -t backend:${{ github.sha }} ./backend
+
+      - name: Build Frontend Docker Image
+        run: docker build -t frontend:${{ github.sha }} ./frontend
+
+      - name: Tag Backend Docker Image
+        run: docker tag backend:${{github.sha }} ${{ steps.login-ecr.outputs.registory }}
+
+      - name: Tag Frontend Docker Image
+        run: docker tag frontend:${{ github.sha }} ${{ steps.login-ecr.outputs.registory }}
+
+      - name: Push backend Image to ECR
+        run: docker push ${{ steps.login-ecr.outputs.registory }}/backend:${{ github.sha }}
+
+      - name: Push frontend Image to ECR
+        run: docker push ${{ steps.login-ecr.outputs.registory }}/frontend:${{ github.sha }}
