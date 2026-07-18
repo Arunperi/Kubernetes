@@ -45,6 +45,9 @@ jobs:
       - name: Tag Frontend Docker Image
         run: docker tag frontend:${{ github.sha }} ${{ steps.login-ecr.outputs.registry }}
 
+      - name: Show Docker Images
+        run: docker images
+
       - name: Push backend Image to ECR
         run: docker push ${{ steps.login-ecr.outputs.registry }}/backend:${{ github.sha }}
 
