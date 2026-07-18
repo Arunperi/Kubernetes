@@ -40,10 +40,10 @@ jobs:
         run: docker build -t frontend:${{ github.sha }} ./frontend
 
       - name: Tag Backend Docker Image
-        run: docker tag backend:${{github.sha }} ${{ steps.login-ecr.outputs.registory }}
+        run: docker tag backend:${{github.sha }} ${{ steps.login-ecr.outputs.registry }}
 
       - name: Tag Frontend Docker Image
-        run: docker tag frontend:${{ github.sha }} ${{ steps.login-ecr.outputs.registory }}
+        run: docker tag frontend:${{ github.sha }} ${{ steps.login-ecr.outputs.registry }}
 
       - name: Push backend Image to ECR
         run: docker push ${{ steps.login-ecr.outputs.registory }}/backend:${{ github.sha }}
