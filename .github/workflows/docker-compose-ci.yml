@@ -53,3 +53,28 @@ jobs:
 
       - name: Push frontend Image to ECR
         run: docker push ${{ steps.login-ecr.outputs.registry }}/frontend:${{ github.sha }}
+
+      - name: Configure kubectl
+        run: |
+          aws eks update-kubeconfig --region us-east-1 --name YOUR_CLUSTER_NAME
+
+      - name: Create ECR Secrets in K8s
+        run: |
+          kubectl create secret docker-registry ecr-secret \
+            --docker-server=${{.steps.login-ecr.outputs.registry }} \
+            --docker-username=AWS \
+            --docker-password=$(aws ecr get-login-password --region us-east-1) \
+            -n dev --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f k8s/namespace.yaml
+          kubectl apply -f k8s/configmap.yaml
+          kubectl apply -f k8s/secrets.yaml
+          kubectl apply -f k8s/postgres-pvc.yaml
+          kubectl apply -f k8s/postgres-deployment.yaml
+          kubectl apply -f k8s/postgres-service.yaml
+          kubectl apply -f k8s/backend-deployment.yaml
+          kubectl apply -f k8s/backend-service.yaml
+          kubectl apply -f k8s/frontend-deployment.yaml
+          kubectl apply -f k8s/frontend-service.yaml
