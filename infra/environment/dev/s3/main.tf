@@ -29,10 +29,3 @@ resource "aws_s3_bucket_public_access_block" "tf_state" {
     block_public_policy     = true
     restrict_public_buckets = true
 }
-
-resource "aws_s3_object" "tf_state" {
-    depends_on = [aws_s3_bucket_versioning.tf_state]
-    for_each = toset(var.module_names)
-    bucket = aws_s3_bucket.tf_state.id
-    key = "${var.environment}/${each.value}"
-}
