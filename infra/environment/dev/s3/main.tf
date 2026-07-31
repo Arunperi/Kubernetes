@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "tf_state" {
-    bucket              = "${var.environment}-${var.bucket_name}"
+    bucket              = "${var.environment}-${var.bucket_name}-20260731"
     object_lock_enabled = true
 }
 
