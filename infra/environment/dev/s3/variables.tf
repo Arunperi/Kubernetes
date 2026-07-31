@@ -8,6 +8,11 @@ variable "bucket_name" {
     type = string
 }
 
+variable "environment" {
+  description = "Environment name"
+  type        = string
+}
+
 variable "module_names" {
     type = list(string)
 }

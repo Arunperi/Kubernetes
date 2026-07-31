@@ -1,6 +1,12 @@
 name: Frontend CI
 
 on:
+  workflow_run:
+    workflows: ["Infra CI"]
+    types:
+      - completed
+    branches:
+      - main
   push:
     branches:
       - main
@@ -21,6 +27,8 @@ env:
 
 jobs:
   frontend-build:
+    # skip if triggered by infra-ci but it failed
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
 

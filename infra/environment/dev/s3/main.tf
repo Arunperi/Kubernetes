@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "tf_state" {
-    bucket_name = var.bucket_name
+    bucket              = "${var.environment}-${var.bucket_name}"
     object_lock_enabled = true
 }
 
@@ -14,7 +14,7 @@ resource "aws_s3_bucket_versioning" "tf_state" {
 resource "aws_s3_bucket_server_side_encryption_configuration" "tf_state" {
     bucket = aws_s3_bucket.tf_state.id
 
-    rule = {
+    rule {
         apply_server_side_encryption_by_default {
             sse_algorithm = "AES256"
         }
@@ -34,5 +34,5 @@ resource "aws_s3_object" "tf_state" {
     depends_on = [aws_s3_bucket_versioning.tf_state]
     for_each = toset(var.module_names)
     bucket = aws_s3_bucket.tf_state.id
-    key = "${each.value}"
+    key = "${var.environment}/${each.value}"
 }

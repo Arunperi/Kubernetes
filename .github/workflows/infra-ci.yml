@@ -5,36 +5,40 @@ on:
     branches:
       - main
     paths:
-      - "infra/terraform/**"
+      - "infra/environment/**"
+      - "infra/modules/**"
       - ".github/workflows/infra-ci.yml"
   pull_request:
     paths:
-      - "infra/terraform/**"
+      - "infra/environment/**"
+      - "infra/modules/**"
   workflow_dispatch:
 
 permissions:
-  id-token: write
   contents: read
 
 jobs:
-  terraform-check:
-    strategy:
-      fail-fast: false
-      matrix:
-        tf_dir:
-          - infra/terraform/s3
-          - infra/terraform/ecr
+  s3-check:
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
-      module_path: ${{ matrix.tf_dir }}
+      module_path: infra/environment/dev/s3
       do_apply: false
     secrets: inherit
-      
+
   backend-setup:
-    needs: terraform-check
+    needs: s3-check
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
-      module_path: infra/terraform/s3
+      module_path: infra/environment/dev/s3
       do_apply: true
     secrets: inherit
+
+  ecr-apply:
+    needs: backend-setup
+    uses: ./.github/workflows/infra-reusable-ci.yml
+    with:
+      module_path: infra/environment/dev/ecr
+      do_apply: true
+    secrets: inherit
+
         
