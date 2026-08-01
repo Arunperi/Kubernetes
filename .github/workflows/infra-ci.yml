@@ -5,12 +5,12 @@ on:
     branches:
       - main
     paths:
-      - "infra/environment/**"
+      - "infra/environments/**"
       - "infra/modules/**"
       - ".github/workflows/infra-ci.yml"
   pull_request:
     paths:
-      - "infra/environment/**"
+      - "infra/environments/**"
       - "infra/modules/**"
   workflow_dispatch:
 
@@ -21,7 +21,7 @@ jobs:
   s3-check:
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
-      module_path: infra/environment/dev/s3
+      module_path: infra/environments/dev/s3
       do_apply: false
     secrets: inherit
 
@@ -29,7 +29,7 @@ jobs:
     needs: s3-check
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
-      module_path: infra/environment/dev/s3
+      module_path: infra/environments/dev/s3
       do_apply: true
     secrets: inherit
 
@@ -37,8 +37,6 @@ jobs:
     needs: backend-setup
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
-      module_path: infra/environment/dev/ecr
+      module_path: infra/environments/dev/ecr
       do_apply: true
     secrets: inherit
-
-        
