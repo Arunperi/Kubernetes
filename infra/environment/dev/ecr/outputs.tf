@@ -1,7 +1,0 @@
-output "backend_repo_url" {
-    value = module.ecr_backend.repository_url
-}
-
-output "frontend_repo_name_repo_url" {
-    value = module.ecr_frontend.repository_url
-}

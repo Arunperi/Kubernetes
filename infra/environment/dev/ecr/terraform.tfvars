@@ -1,4 +1,6 @@
 aws_region = "us-east-1"
+bucket_name = "dev_tfstate_files_32343"
+key = "ecr/terraform.tfstate"
 backend_repo_name    = "backend"
 frontend_repo_name   = "frontend"
 image_tag_mutability = "MUTABLE"

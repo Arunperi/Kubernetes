@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket = "dev-tfstate-20260731"
-    key    = "dev/ecr/terraform.tfstate"
-    region = "us-east-1"
+    bucket = var.bucket_name
+    key    = var.key
+    region = var.aws_region
     encrypt = true
 
     # requires Terraform >= 1.10 and AWS provider >= 5.0

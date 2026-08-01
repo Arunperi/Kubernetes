@@ -3,6 +3,17 @@ variable "aws_region" {
     type = string
 }
 
+variable "bucket_name" {
+  description = "Backend S3 bucket name"
+  type = string
+}
+
+variable "key" {
+    description = "S3 object"
+    type = string
+  
+}
+
 variable "backend_repo_name" {
     description = "ECR repository for backend"
     type = string
