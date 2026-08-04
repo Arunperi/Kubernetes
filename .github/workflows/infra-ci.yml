@@ -37,7 +37,15 @@ jobs:
     needs: backend-setup
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
-      module_path: infra/environment/dev/iam
+      module_path: infra/environments/dev/iam
+      do_apply: true
+    secrets: inherit
+
+  vpc-apply:
+    needs: iam-apply
+    uses: ./.github/workflows/infra-reusable-ci.yml
+    with:
+      module_path: infra/environments/dev/vpc
       do_apply: true
     secrets: inherit
 
