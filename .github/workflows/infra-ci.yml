@@ -33,26 +33,32 @@ jobs:
       do_apply: true
     secrets: inherit
 
-  iam-apply:
-    needs: backend-setup
-    uses: ./.github/workflows/infra-reusable-ci.yml
-    with:
-      module_path: infra/environments/dev/iam
-      do_apply: true
-    secrets: inherit
-
   vpc-apply:
-    needs: iam-apply
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
       module_path: infra/environments/dev/vpc
       do_apply: true
     secrets: inherit
 
+  iam-apply:
+    needs: vpc-apply
+    uses: ./.github/workflows/infra-reusable-ci.yml
+    with:
+      module_path: infra/environments/dev/iam
+      do_apply: true
+    secrets: inherit
+
   ecr-apply:
-    needs: backend-setup
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
       module_path: infra/environments/dev/ecr
+      do_apply: true
+    secrets: inherit
+
+  eks-apply:
+    needs: [vpc-apply, iam-apply]
+    uses: ./.github/workflows/infra-reusable-ci.yml
+    with:
+      module_path: infra/environments/dev/eks
       do_apply: true
     secrets: inherit

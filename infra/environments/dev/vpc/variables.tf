@@ -8,6 +8,17 @@ variable "cidr_block" {
     type = string
 }
 
+variable "vpc_name" {
+    description = "Name tag value for the VPC"
+    type = string
+}
+
+variable "tags" {
+    description = "Common tags for VPC resources"
+    type = map(string)
+    default = {}
+}
+
 variable "subnet_count" {
     description = "Number of subnets to create"
     type = number
