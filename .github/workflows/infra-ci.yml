@@ -95,7 +95,7 @@ jobs:
       - name: Destroy resources in reverse dependency order
         shell: bash
         run: |
-          set -euo pipefail
+          set -uo pipefail
 
           modules=(
             "infra/environments/dev/ec2"
@@ -106,10 +106,25 @@ jobs:
             "infra/environments/dev/s3"
           )
 
+          cleanup_failed=0
+
           for module_path in "${modules[@]}"; do
             if [ -d "$module_path" ]; then
               echo "Destroying $module_path"
-              terraform -chdir="$module_path" init
-              terraform -chdir="$module_path" destroy -auto-approve || true
+              terraform -chdir="$module_path" init || {
+                echo "Init failed for $module_path, continuing"
+                cleanup_failed=1
+                continue
+              }
+
+              terraform -chdir="$module_path" destroy -auto-approve || {
+                echo "Destroy failed for $module_path, continuing"
+                cleanup_failed=1
+              }
             fi
           done
+
+          if [ "$cleanup_failed" -ne 0 ]; then
+            echo "One or more cleanup steps failed"
+            exit 1
+          fi
