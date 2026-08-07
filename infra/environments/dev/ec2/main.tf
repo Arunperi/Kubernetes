@@ -43,9 +43,10 @@ module "ec2_bastion" {
   vpc_id           = data.terraform_remote_state.vpc.outputs.vpc_id
   key_name         = var.key_name
   allowed_ssh_cidr = var.allowed_ssh_cidr
+  enable_ssh       = var.enable_ssh
 
   managed_policy_arns = [
-    "arn:aws:iam::aws:policy/AmazonEKSReadOnlyAccess",
+    "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
     "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   ]
 

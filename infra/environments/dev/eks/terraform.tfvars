@@ -1,6 +1,6 @@
 region = "us-east-1"
 cluster_name       = "dev-eks"
-kubernetes_version = "1.30"
+kubernetes_version = "1.33"
 
 endpoint_private_access = true
 endpoint_public_access  = true

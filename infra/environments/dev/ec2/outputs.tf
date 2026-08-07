@@ -27,3 +27,8 @@ output "kubeconfig_command_on_bastion" {
   description = "Run this command on bastion to refresh kubeconfig"
   value       = "aws eks update-kubeconfig --region ${var.region} --name ${data.terraform_remote_state.eks.outputs.cluster_name}"
 }
+
+output "ssm_start_session_command" {
+  description = "AWS CLI command to connect to bastion using Session Manager"
+  value       = "aws ssm start-session --target ${module.ec2_bastion.instance_id}"
+}

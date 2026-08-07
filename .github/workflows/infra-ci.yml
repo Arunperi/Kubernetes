@@ -72,3 +72,44 @@ jobs:
       module_path: infra/environments/dev/ec2
       do_apply: true
     secrets: inherit
+
+  cleanup-on-failure:
+    needs:
+      - backend-setup
+      - vpc-apply
+      - iam-apply
+      - ecr-apply
+      - eks-apply
+      - ec2-apply
+    if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Destroy resources in reverse dependency order
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          modules=(
+            "infra/environments/dev/ec2"
+            "infra/environments/dev/eks"
+            "infra/environments/dev/ecr"
+            "infra/environments/dev/iam"
+            "infra/environments/dev/vpc"
+            "infra/environments/dev/s3"
+          )
+
+          for module_path in "${modules[@]}"; do
+            if [ -d "$module_path" ]; then
+              echo "Destroying $module_path"
+              terraform -chdir="$module_path" init
+              terraform -chdir="$module_path" destroy -auto-approve || true
+            fi
+          done

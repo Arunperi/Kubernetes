@@ -3,12 +3,16 @@ resource "aws_security_group" "this" {
   description = "Security group for ${var.name}"
   vpc_id      = var.vpc_id
 
-  ingress {
-    description = "SSH from allowed CIDR"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = [var.allowed_ssh_cidr]
+  dynamic "ingress" {
+    for_each = var.enable_ssh ? [1] : []
+
+    content {
+      description = "SSH from allowed CIDR"
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = [var.allowed_ssh_cidr]
+    }
   }
 
   egress {

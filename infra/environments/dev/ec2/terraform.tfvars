@@ -2,7 +2,7 @@ region = "us-east-1"
 
 instance_name = "dev-eks-bastion"
 instance_type = "t3.micro"
-key_name      = "replace-with-your-keypair-name"
+enable_ssh    = false
 
 allowed_ssh_cidr = "0.0.0.0/0"
 

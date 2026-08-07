@@ -18,12 +18,19 @@ variable "instance_type" {
 variable "key_name" {
   description = "Existing EC2 key pair name for SSH"
   type        = string
+  default     = null
 }
 
 variable "allowed_ssh_cidr" {
   description = "CIDR block that can SSH to bastion"
   type        = string
   default     = "0.0.0.0/0"
+}
+
+variable "enable_ssh" {
+  description = "Enable SSH access to bastion"
+  type        = bool
+  default     = false
 }
 
 variable "remote_state_bucket" {

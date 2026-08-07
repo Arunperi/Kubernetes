@@ -26,11 +26,18 @@ variable "vpc_id" {
 variable "key_name" {
   description = "Existing EC2 key pair name"
   type        = string
+  default     = null
 }
 
 variable "allowed_ssh_cidr" {
   description = "CIDR block allowed to SSH to the instance"
   type        = string
+}
+
+variable "enable_ssh" {
+  description = "Enable SSH ingress on port 22"
+  type        = bool
+  default     = false
 }
 
 variable "managed_policy_arns" {
