@@ -10,7 +10,6 @@ on:
         type: choice
         options:
           - all
-          - ec2
           - eks
           - ecr
           - iam
@@ -40,7 +39,6 @@ jobs:
           case "${{ github.event.inputs.target }}" in
             all)
               modules=(
-                "infra/environments/dev/ec2"
                 "infra/environments/dev/eks"
                 "infra/environments/dev/ecr"
                 "infra/environments/dev/iam"
@@ -48,7 +46,6 @@ jobs:
                 "infra/environments/dev/s3"
               )
               ;;
-            ec2) modules=("infra/environments/dev/ec2") ;;
             eks) modules=("infra/environments/dev/eks") ;;
             ecr) modules=("infra/environments/dev/ecr") ;;
             iam) modules=("infra/environments/dev/iam") ;;
