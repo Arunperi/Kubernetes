@@ -46,7 +46,6 @@ module "ec2_bastion" {
   enable_ssh       = var.enable_ssh
 
   managed_policy_arns = [
-    "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
     "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   ]
 
@@ -61,8 +60,56 @@ module "ec2_bastion" {
               install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
               rm -f kubectl
 
+              for i in {1..20}; do
+                if aws eks describe-cluster --region ${var.region} --name ${data.terraform_remote_state.eks.outputs.cluster_name} >/dev/null 2>&1; then
+                  break
+                fi
+                sleep 15
+              done
+
               su - ec2-user -c "aws eks update-kubeconfig --region ${var.region} --name ${data.terraform_remote_state.eks.outputs.cluster_name}"
               EOF
 
   tags = var.tags
+}
+
+resource "aws_iam_role_policy" "bastion_eks_describe_cluster" {
+  name = "${var.instance_name}-eks-describe-cluster"
+  role = module.ec2_bastion.iam_role_name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "eks:DescribeCluster"
+        ]
+        Resource = data.terraform_remote_state.eks.outputs.cluster_arn
+      }
+    ]
+  })
+}
+
+data "aws_iam_role" "bastion" {
+  name       = module.ec2_bastion.iam_role_name
+  depends_on = [module.ec2_bastion]
+}
+
+resource "aws_eks_access_entry" "bastion" {
+  cluster_name  = data.terraform_remote_state.eks.outputs.cluster_name
+  principal_arn = data.aws_iam_role.bastion.arn
+  type          = "STANDARD"
+}
+
+resource "aws_eks_access_policy_association" "bastion_cluster_admin" {
+  cluster_name  = data.terraform_remote_state.eks.outputs.cluster_name
+  principal_arn = data.aws_iam_role.bastion.arn
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+
+  access_scope {
+    type = "cluster"
+  }
+
+  depends_on = [aws_eks_access_entry.bastion]
 }
