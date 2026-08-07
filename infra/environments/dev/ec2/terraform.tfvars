@@ -6,7 +6,7 @@ enable_ssh    = false
 
 allowed_ssh_cidr = "0.0.0.0/0"
 
-remote_state_bucket = "dev-tfstate-files-32343"
+remote_state_bucket = "dev-tfstate-files-25111997"
 vpc_state_key       = "vpc/terraform.tfstate"
 eks_state_key       = "eks/terraform.tfstate"
 
