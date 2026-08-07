@@ -1,0 +1,87 @@
+name: Infra Destroy
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Module to destroy (or all)"
+        required: true
+        default: all
+        type: choice
+        options:
+          - all
+          - ec2
+          - eks
+          - ecr
+          - iam
+          - vpc
+          - s3
+
+permissions:
+  contents: read
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Destroy selected infrastructure
+        shell: bash
+        run: |
+          set -uo pipefail
+
+          case "${{ github.event.inputs.target }}" in
+            all)
+              modules=(
+                "infra/environments/dev/ec2"
+                "infra/environments/dev/eks"
+                "infra/environments/dev/ecr"
+                "infra/environments/dev/iam"
+                "infra/environments/dev/vpc"
+                "infra/environments/dev/s3"
+              )
+              ;;
+            ec2) modules=("infra/environments/dev/ec2") ;;
+            eks) modules=("infra/environments/dev/eks") ;;
+            ecr) modules=("infra/environments/dev/ecr") ;;
+            iam) modules=("infra/environments/dev/iam") ;;
+            vpc) modules=("infra/environments/dev/vpc") ;;
+            s3) modules=("infra/environments/dev/s3") ;;
+            *)
+              echo "Invalid target: ${{ github.event.inputs.target }}"
+              exit 1
+              ;;
+          esac
+
+          destroy_failed=0
+
+          for module_path in "${modules[@]}"; do
+            if [ -d "$module_path" ]; then
+              echo "Destroying $module_path"
+              terraform -chdir="$module_path" init || {
+                echo "Init failed for $module_path, continuing"
+                destroy_failed=1
+                continue
+              }
+
+              terraform -chdir="$module_path" destroy -auto-approve || {
+                echo "Destroy failed for $module_path, continuing"
+                destroy_failed=1
+              }
+            else
+              echo "Module path not found: $module_path"
+              destroy_failed=1
+            fi
+          done
+
+          if [ "$destroy_failed" -ne 0 ]; then
+            echo "One or more destroy steps failed"
+            exit 1
+          fi

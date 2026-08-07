@@ -5,7 +5,7 @@ kubernetes_version = "1.33"
 endpoint_private_access = true
 endpoint_public_access  = true
 
-remote_state_bucket = "dev-tfstate-files-32343"
+remote_state_bucket = "dev-tfstate-files-25111997"
 vpc_state_key       = "vpc/terraform.tfstate"
 iam_state_key       = "iam/terraform.tfstate"
 

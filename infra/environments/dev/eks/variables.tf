@@ -29,7 +29,7 @@ variable "endpoint_public_access" {
 variable "remote_state_bucket" {
   description = "S3 bucket that stores Terraform states"
   type        = string
-  default     = "dev-tfstate-files-32343"
+  default     = "dev-tfstate-files-25111997"
 }
 
 variable "vpc_state_key" {
