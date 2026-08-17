@@ -11,11 +11,11 @@ on:
     branches:
       - main
     paths:
-      - "backend/**"
+      - "app/backend/**"
       - ".github/workflows/backend-ci.yml"
   pull_request:
     paths:
-      - "backend/**"
+      - "app/backend/**"
   workflow_dispatch:
 
 permissions:

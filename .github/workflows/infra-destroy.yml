@@ -39,18 +39,18 @@ jobs:
           case "${{ github.event.inputs.target }}" in
             all)
               modules=(
-                "infra/environments/dev/eks"
-                "infra/environments/dev/ecr"
-                "infra/environments/dev/iam"
-                "infra/environments/dev/vpc"
-                "infra/environments/dev/s3"
+                "terraform/environments/dev/eks"
+                "terraform/environments/dev/ecr"
+                "terraform/environments/dev/iam"
+                "terraform/environments/dev/vpc"
+                "terraform/environments/dev/s3"
               )
               ;;
-            eks) modules=("infra/environments/dev/eks") ;;
-            ecr) modules=("infra/environments/dev/ecr") ;;
-            iam) modules=("infra/environments/dev/iam") ;;
-            vpc) modules=("infra/environments/dev/vpc") ;;
-            s3) modules=("infra/environments/dev/s3") ;;
+            eks) modules=("terraform/environments/dev/eks") ;;
+            ecr) modules=("terraform/environments/dev/ecr") ;;
+            iam) modules=("terraform/environments/dev/iam") ;;
+            vpc) modules=("terraform/environments/dev/vpc") ;;
+            s3) modules=("terraform/environments/dev/s3") ;;
             *)
               echo "Invalid target: ${{ github.event.inputs.target }}"
               exit 1

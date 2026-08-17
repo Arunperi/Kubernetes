@@ -5,13 +5,13 @@ on:
     branches:
       - main
     paths:
-      - "infra/environments/**"
-      - "infra/modules/**"
+      - "terraform/environments/**"
+      - "terraform/modules/**"
       - ".github/workflows/infra-ci.yml"
   pull_request:
     paths:
-      - "infra/environments/**"
-      - "infra/modules/**"
+      - "terraform/environments/**"
+      - "terraform/modules/**"
   workflow_dispatch:
 
 permissions:
@@ -21,7 +21,7 @@ jobs:
   s3-check:
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
-      module_path: infra/environments/dev/s3
+      module_path: terraform/environments/dev/s3
       do_apply: false
     secrets: inherit
 
@@ -29,7 +29,7 @@ jobs:
     needs: s3-check
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
-      module_path: infra/environments/dev/s3
+      module_path: terraform/environments/dev/s3
       do_apply: true
     secrets: inherit
 
@@ -37,7 +37,7 @@ jobs:
     needs: backend-setup
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
-      module_path: infra/environments/dev/vpc
+      module_path: terraform/environments/dev/vpc
       do_apply: true
     secrets: inherit
 
@@ -45,7 +45,7 @@ jobs:
     needs: vpc-apply
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
-      module_path: infra/environments/dev/iam
+      module_path: terraform/environments/dev/iam
       do_apply: true
     secrets: inherit
 
@@ -53,7 +53,7 @@ jobs:
     needs: iam-apply
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
-      module_path: infra/environments/dev/ecr
+      module_path: terraform/environments/dev/ecr
       do_apply: true
     secrets: inherit
 
@@ -61,6 +61,6 @@ jobs:
     needs: ecr-apply
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
-      module_path: infra/environments/dev/eks
+      module_path: terraform/environments/dev/eks
       do_apply: true
     secrets: inherit
