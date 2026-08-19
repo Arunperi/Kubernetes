@@ -44,6 +44,12 @@ variable "iam_state_key" {
   default     = "iam/terraform.tfstate"
 }
 
+variable "sg_state_key" {
+  description = "S3 key for security-group Terraform state."
+  type        = string
+  default     = "sg/terraform.tfstate"
+}
+
 variable "tags" {
   description = "Tags for EKS resources"
   type        = map(string)

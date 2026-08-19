@@ -19,6 +19,18 @@ variable "ip_protocol" {
 }
 
 variable "to_port" {
-  description = "to port"
-  type = number
+  description = "Ending port for the ingress rule."
+  type        = number
+}
+
+variable "cidr_ipv4" {
+  description = "IPv4 CIDR range allowed to access the security group."
+  type        = string
+  default     = null
+}
+
+variable "referenced_security_group_id" {
+  description = "Security group allowed to access this security group."
+  type        = string
+  default     = null
 }

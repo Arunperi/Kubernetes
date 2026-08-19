@@ -24,6 +24,11 @@ variable "subnet_ids" {
   }
 }
 
+variable "security_group_ids" {
+  description = "Security groups attached to the EKS cluster network interface."
+  type        = list(string)
+}
+
 variable "endpoint_private_access" {
   description = "Whether the Amazon EKS private API server endpoint is enabled"
   type        = bool

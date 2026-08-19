@@ -10,7 +10,9 @@ on:
         type: choice
         options:
           - all
+          - ec2
           - eks
+          - sg
           - ecr
           - iam
           - vpc
@@ -39,14 +41,18 @@ jobs:
           case "${{ github.event.inputs.target }}" in
             all)
               modules=(
+                "terraform/environments/dev/ec2"
                 "terraform/environments/dev/eks"
+                "terraform/environments/dev/sg"
                 "terraform/environments/dev/ecr"
                 "terraform/environments/dev/iam"
                 "terraform/environments/dev/vpc"
                 "terraform/environments/dev/s3"
               )
               ;;
+            ec2) modules=("terraform/environments/dev/ec2") ;;
             eks) modules=("terraform/environments/dev/eks") ;;
+            sg) modules=("terraform/environments/dev/sg") ;;
             ecr) modules=("terraform/environments/dev/ecr") ;;
             iam) modules=("terraform/environments/dev/iam") ;;
             vpc) modules=("terraform/environments/dev/vpc") ;;

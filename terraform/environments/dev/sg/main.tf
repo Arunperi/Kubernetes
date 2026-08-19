@@ -1,8 +1,31 @@
-module "aws_security_group" {
+data "terraform_remote_state" "vpc" {
+  backend = "s3"
+
+  config = {
+    bucket = var.remote_state_bucket
+    key    = var.vpc_state_key
+    region = var.region
+  }
+}
+
+module "ec2_security_group" {
   source = "../../../modules/sg"
-  name = var.name
-  vpc_id = var.vpc_id
-  ip_protocol = var.ip_protocol
-  from_port = var.from_port
-  to_port = var.to_port
+
+  name        = var.ec2_sg_name
+  vpc_id      = data.terraform_remote_state.vpc.outputs.vpc_id
+  ip_protocol = var.ec2_ip_protocol
+  from_port   = var.ec2_from_port
+  to_port     = var.ec2_to_port
+  cidr_ipv4   = var.ec2_cidr_ipv4
+}
+
+module "eks_security_group" {
+  source = "../../../modules/sg"
+
+  name                          = var.eks_sg_name
+  vpc_id                        = data.terraform_remote_state.vpc.outputs.vpc_id
+  ip_protocol                   = var.eks_ip_protocol
+  from_port                     = var.eks_from_port
+  to_port                       = var.eks_to_port
+  referenced_security_group_id = module.ec2_security_group.security_group_id
 }

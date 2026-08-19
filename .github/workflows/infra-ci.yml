@@ -30,7 +30,7 @@ jobs:
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
       module_path: terraform/environments/dev/s3
-      do_apply: true
+      do_apply: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     secrets: inherit
 
   vpc-apply:
@@ -38,7 +38,7 @@ jobs:
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
       module_path: terraform/environments/dev/vpc
-      do_apply: true
+      do_apply: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     secrets: inherit
 
   iam-apply:
@@ -46,7 +46,15 @@ jobs:
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
       module_path: terraform/environments/dev/iam
-      do_apply: true
+      do_apply: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    secrets: inherit
+
+  sg-apply:
+    needs: vpc-apply
+    uses: ./.github/workflows/infra-reusable-ci.yml
+    with:
+      module_path: terraform/environments/dev/sg
+      do_apply: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     secrets: inherit
 
   ecr-apply:
@@ -54,13 +62,21 @@ jobs:
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
       module_path: terraform/environments/dev/ecr
-      do_apply: true
+      do_apply: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    secrets: inherit
+
+  ec2-apply:
+    needs: sg-apply
+    uses: ./.github/workflows/infra-reusable-ci.yml
+    with:
+      module_path: terraform/environments/dev/ec2
+      do_apply: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     secrets: inherit
 
   eks-apply:
-    needs: ecr-apply
+    needs: [ecr-apply, iam-apply, sg-apply]
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
       module_path: terraform/environments/dev/eks
-      do_apply: true
+      do_apply: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     secrets: inherit

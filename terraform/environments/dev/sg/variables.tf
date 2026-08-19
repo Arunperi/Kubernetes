@@ -1,29 +1,64 @@
 variable "region" {
-    description = "VPC Region"
-    type = string
+  description = "AWS region where the security groups are created."
+  type        = string
 }
 
-variable "name" {
-  description = "security group name"
-  type = string
+variable "remote_state_bucket" {
+  description = "S3 bucket that stores the VPC Terraform state."
+  type        = string
+  default     = "dev-tfstate-files-25111997"
 }
 
-variable "vpc_id" {
-  description = "VPC id"
-  type = string
+variable "vpc_state_key" {
+  description = "S3 object key for the VPC Terraform state."
+  type        = string
+  default     = "vpc/terraform.tfstate"
 }
 
-variable "from_port" {
-  description = "from port"
-  type = number
+variable "ec2_sg_name" {
+  description = "Name of the EC2 security group."
+  type        = string
 }
 
-variable "ip_protocol" {
-  description = "ip protocal"
-  type = string
+variable "ec2_from_port" {
+  description = "Starting port for EC2 ingress traffic."
+  type        = number
 }
 
-variable "to_port" {
-  description = "to port"
-  type = number
+variable "ec2_ip_protocol" {
+  description = "IP protocol for EC2 ingress traffic."
+  type        = string
 }
+
+variable "ec2_to_port" {
+  description = "Ending port for EC2 ingress traffic."
+  type        = number
+}
+
+variable "ec2_cidr_ipv4" {
+  description = "IPv4 CIDR range allowed to SSH into EC2."
+  type        = string
+  default     = "0.0.0.0/0"
+}
+
+variable "eks_sg_name" {
+  description = "Name of the EKS security group."
+  type        = string
+}
+
+variable "eks_from_port" {
+  description = "Starting port for EKS ingress traffic."
+  type        = number
+}
+
+variable "eks_ip_protocol" {
+  description = "IP protocol for EKS ingress traffic."
+  type        = string
+}
+
+variable "eks_to_port" {
+  description = "Ending port for EKS ingress traffic."
+  type        = number
+}
+
+
