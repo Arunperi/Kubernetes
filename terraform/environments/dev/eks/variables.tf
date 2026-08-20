@@ -11,7 +11,7 @@ variable "cluster_name" {
 variable "kubernetes_version" {
   description = "Kubernetes version for EKS"
   type        = string
-  default     = "1.33"
+  default     = "1.34"
 }
 
 variable "endpoint_private_access" {
@@ -23,7 +23,7 @@ variable "endpoint_private_access" {
 variable "endpoint_public_access" {
   description = "Enable public EKS endpoint"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "remote_state_bucket" {

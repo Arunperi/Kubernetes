@@ -1,9 +1,9 @@
 region = "us-east-1"
 cluster_name       = "dev-eks"
-kubernetes_version = "1.33"
+kubernetes_version = "1.34"
 
 endpoint_private_access = true
-endpoint_public_access  = true
+endpoint_public_access  = false
 
 remote_state_bucket = "dev-tfstate-files-25111997"
 vpc_state_key       = "vpc/terraform.tfstate"

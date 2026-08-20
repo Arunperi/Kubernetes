@@ -3,6 +3,10 @@ resource "aws_eks_cluster" "this" {
   role_arn = var.cluster_role_arn
   version  = var.kubernetes_version
 
+  access_config {
+    authentication_mode = "API"
+  }
+
   vpc_config {
     subnet_ids              = var.subnet_ids
     security_group_ids      = var.security_group_ids
