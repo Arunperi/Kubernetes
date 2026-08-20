@@ -37,6 +37,21 @@ resource "aws_instance" "this" {
 
   associate_public_ip_address = true
 
+  user_data = <<-EOF
+    #!/bin/bash
+    set -euo pipefail
+
+    dnf install -y curl
+    KARCH="amd64"
+    KVER=$(curl -L -s https://dl.k8s.io/release/stable.txt)
+
+    cd /tmp
+    curl -LO "https://dl.k8s.io/release/$${KVER}/bin/linux/$${KARCH}/kubectl"
+    curl -LO "https://dl.k8s.io/release/$${KVER}/bin/linux/$${KARCH}/kubectl.sha256"
+    echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+    install -m 0755 kubectl /usr/local/bin/kubectl
+  EOF
+
   tags = {
     Name = var.instance_name
   }
