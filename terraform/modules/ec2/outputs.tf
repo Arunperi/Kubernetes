@@ -1,0 +1,14 @@
+output "role_name" {
+  description = "Name of the EC2 SSM IAM role"
+  value       = aws_iam_role.ssm.name
+}
+
+output "role_arn" {
+  description = "ARN of the EC2 SSM IAM role"
+  value       = aws_iam_role.ssm.arn
+}
+
+output "instance_profile_name" {
+  description = "Instance profile name attached to the EC2 instance"
+  value       = aws_iam_instance_profile.this.name
+}
