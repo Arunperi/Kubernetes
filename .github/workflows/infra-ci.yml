@@ -74,7 +74,7 @@ jobs:
     secrets: inherit
 
   eks-apply:
-    needs: [ecr-apply, iam-apply, sg-apply]
+    needs: [ec2-apply, ecr-apply, iam-apply, sg-apply]
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
       module_path: terraform/environments/dev/eks
