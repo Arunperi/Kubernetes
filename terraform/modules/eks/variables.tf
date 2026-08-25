@@ -41,16 +41,6 @@ variable "endpoint_public_access" {
   default     = true
 }
 
-variable "access_entry_principal_arn" {
-  description = "IAM principal ARN that should be granted access to the EKS cluster"
-  type        = string
-}
-
-variable "cluster_admin_policy_arn" {
-  description = "EKS cluster access policy to attach to the principal"
-  type        = string
-  default     = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-}
 
 variable "tags" {
   description = "Tags to apply to the EKS cluster"
