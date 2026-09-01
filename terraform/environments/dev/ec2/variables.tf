@@ -12,7 +12,7 @@ variable "instance_name" {
 variable "remote_state_bucket" {
   description = "S3 bucket that stores the VPC and security-group Terraform states."
   type        = string
-  default     = "dev-tfstate-files-251119971"
+  default     = "dev-tfstate-files-251119972"
 }
 
 variable "vpc_state_key" {

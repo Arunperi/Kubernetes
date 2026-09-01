@@ -18,3 +18,27 @@ resource "aws_eks_cluster" "this" {
     Name = var.cluster_name
   })
 }
+
+resource "aws_eks_node_group" "this" {
+  cluster_name    = aws_eks_cluster.this.name
+  node_group_name = var.node_group_name
+  node_role_arn   = var.node_role_arn
+  subnet_ids      = var.node_subnet_ids
+
+  capacity_type  = var.node_capacity_type
+  ami_type       = var.node_ami_type
+  instance_types = var.node_instance_types
+  disk_size      = var.node_disk_size
+
+  scaling_config {
+    desired_size = var.node_desired_size
+    min_size     = var.node_min_size
+    max_size     = var.node_max_size
+  }
+
+  labels = var.node_labels
+
+  tags = merge(var.tags, {
+    Name = var.node_group_name
+  })
+}

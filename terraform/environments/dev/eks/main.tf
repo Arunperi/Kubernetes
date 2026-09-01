@@ -39,4 +39,16 @@ module "eks" {
   endpoint_private_access    = var.endpoint_private_access
   endpoint_public_access     = var.endpoint_public_access
   tags                       = var.tags
+
+  node_group_name     = var.node_group_name
+  node_role_arn       = data.terraform_remote_state.iam.outputs.node_role_arn
+  node_subnet_ids     = data.terraform_remote_state.vpc.outputs.private_subnet_ids
+  node_capacity_type  = var.node_capacity_type
+  node_ami_type       = var.node_ami_type
+  node_instance_types = var.node_instance_types
+  node_disk_size      = var.node_disk_size
+  node_desired_size   = var.node_desired_size
+  node_min_size       = var.node_min_size
+  node_max_size       = var.node_max_size
+  node_labels         = var.node_labels
 }

@@ -6,7 +6,7 @@ variable "region" {
 variable "remote_state_bucket" {
   description = "S3 bucket that stores the VPC Terraform state."
   type        = string
-  default     = "dev-tfstate-files-251119971"
+  default     = "dev-tfstate-files-251119972"
 }
 
 variable "vpc_state_key" {

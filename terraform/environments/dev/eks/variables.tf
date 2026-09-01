@@ -29,7 +29,7 @@ variable "endpoint_public_access" {
 variable "remote_state_bucket" {
   description = "S3 bucket that stores Terraform states"
   type        = string
-  default     = "dev-tfstate-files-251119971"
+  default     = "dev-tfstate-files-251119972"
 }
 
 variable "vpc_state_key" {
@@ -52,6 +52,60 @@ variable "sg_state_key" {
 
 variable "tags" {
   description = "Tags for EKS resources"
+  type        = map(string)
+  default     = {}
+}
+
+variable "node_group_name" {
+  description = "Name of the EKS managed node group"
+  type        = string
+  default     = "dev-eks-nodes"
+}
+
+variable "node_capacity_type" {
+  description = "Type of capacity for the node group (ON_DEMAND or SPOT)"
+  type        = string
+  default     = "ON_DEMAND"
+}
+
+variable "node_ami_type" {
+  description = "AMI type for the node group"
+  type        = string
+  default     = "AL2023_x86_64_STANDARD"
+}
+
+variable "node_instance_types" {
+  description = "EC2 instance types for the node group"
+  type        = list(string)
+  default     = ["t3.medium"]
+}
+
+variable "node_disk_size" {
+  description = "Disk size (GiB) for each node"
+  type        = number
+  default     = 20
+}
+
+variable "node_desired_size" {
+  description = "Desired number of worker nodes"
+  type        = number
+  default     = 2
+}
+
+variable "node_min_size" {
+  description = "Minimum number of worker nodes"
+  type        = number
+  default     = 1
+}
+
+variable "node_max_size" {
+  description = "Maximum number of worker nodes"
+  type        = number
+  default     = 3
+}
+
+variable "node_labels" {
+  description = "Kubernetes labels to apply to the node group"
   type        = map(string)
   default     = {}
 }
