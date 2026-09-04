@@ -1,0 +1,8 @@
+postgres:
+  replicaCount: 1
+  image:
+    repository: postgres
+    tag: 16-alpine
+    pullPolicy: IfNotPresent
+  service:
+    Port: 5432
