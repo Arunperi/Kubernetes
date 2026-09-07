@@ -6,3 +6,10 @@ postgres:
     pullPolicy: IfNotPresent
   service:
     Port: 5432
+  db: appdb
+  user: appuser
+  password: apppassword
+
+app:
+  port: "4000"
+  databaseUrl: "postgresql://appuser:apppassword@postgres:5432/appdb"
