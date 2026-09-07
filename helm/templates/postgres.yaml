@@ -42,17 +42,3 @@ spec:
         - name: postgres-storage
           persistentVolumeClaim:
             claimName: postgres-pvc
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgres
-  namespace: dev
-spec:
-  type: ClusterIP
-  selector:
-    matchLabels:
-      app: postgres
-  ports:
-    - port: {{ .Values.postgres.service.Port }}
-      targetPort: {{ .Values.postgres.service.Port }}
