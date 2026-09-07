@@ -6,6 +6,3 @@ postgres:
     pullPolicy: IfNotPresent
   service:
     Port: 5432
-  storage:
-    size: 10Gi
-    className: gp2
