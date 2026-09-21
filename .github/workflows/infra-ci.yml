@@ -58,7 +58,7 @@ jobs:
   #   secrets: inherit
 
   ecr-apply:
-    # needs: iam-apply
+    needs: backend-setup
     uses: ./.github/workflows/infra-reusable-ci.yml
     with:
       module_path: terraform/environments/dev/ecr
