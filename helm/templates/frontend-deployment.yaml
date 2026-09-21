@@ -28,8 +28,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    matchLabels:
-      app: frontend
+    app: frontend
   ports:
     - port: 80
       targetPort: 80
