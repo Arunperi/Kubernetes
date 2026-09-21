@@ -25,8 +25,10 @@ kind: Service
 metadata:
   name: frontend
   namespace: dev
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: frontend
   ports:
