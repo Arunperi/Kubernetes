@@ -25,13 +25,13 @@ jobs:
       do_apply: false
     secrets: inherit
 
-  backend-setup:
-    needs: s3-check
-    uses: ./.github/workflows/infra-reusable-ci.yml
-    with:
-      module_path: terraform/environments/dev/s3
-      do_apply: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
-    secrets: inherit
+  # backend-setup:
+  #   needs: s3-check
+  #   uses: ./.github/workflows/infra-reusable-ci.yml
+  #   with:
+  #     module_path: terraform/environments/dev/s3
+  #     do_apply: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+  #   secrets: inherit
 
   # vpc-apply:
   #   needs: backend-setup
